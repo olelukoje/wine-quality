@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import pickle
 import pandas as pd
+import json
 
 app = Flask(__name__)
 
@@ -15,9 +16,10 @@ def start():
 def predict():
     if request.method == 'POST':
         try:
-            json_data = request.get_json()
+            json_path = request.get_data()
+            with open(json_path, "r") as f:
+                json_data = json.load(f)
             df = pd.DataFrame({0: json_data}).transpose()
-            rf_model = pickle.load(open("./rf_model.pkl", 'rb'))
         except ValueError:
             return jsonify("Please check the json file.")
 
@@ -25,6 +27,7 @@ def predict():
 
 
 if __name__ == '__main__':
-    # app.run(debug=True)
+    with open("./rf_model.pkl", 'rb') as f:
+        rf_model = pickle.load(f)
     app.run(host='0.0.0.0', port=80)
 
