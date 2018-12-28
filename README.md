@@ -1,5 +1,5 @@
-Для запуска кода в jupyter-тетрадке wine_quality.ipynb необходимо:
-1. Создать виртуальную среду: python3 -m venv /path/to/new/virtual/environment
-2. Активировать ее: source <venv>/bin/activate
-3. Установить пакеты из файла requirements.txt: pip3 install -r /path/to/requirements.txt
-4. Запустить jupyter notebook из-под venv-а
+#### **Launch Instructions:**
+1. Build an image from a Dockerfile: docker build -t wine_quality_image .
+2. Derive a container from the image: docker run -p host_port:container_port wine_quality_image
+3. Make curl to check: curl -d ./wine_inputs.json http://localhost:host_port/predict
+
