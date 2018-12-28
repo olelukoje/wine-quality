@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from werkzeug.contrib.fixers import ProxyFix
 import pickle
 import pandas as pd
 import json
@@ -26,8 +27,9 @@ def predict():
         return jsonify(rf_model.predict(df).tolist())
 
 
-if __name__ == '__main__':
-    with open("./rf_model.pkl", 'rb') as f:
+with open("./rf_model.pkl", 'rb') as f:
         rf_model = pickle.load(f)
-    app.run(host='0.0.0.0', port=80)
+
+app.wsgi_app = ProxyFix(app.wsgi_app)
+
 

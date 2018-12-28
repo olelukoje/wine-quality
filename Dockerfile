@@ -6,4 +6,4 @@ RUN pip3 install -r requirements.txt
 
 EXPOSE 80
 
-CMD [ "python", "./predicts_api.py" ]
+CMD [ "gunicorn", "-b", "0.0.0.0:80", "predicts_api:app" ]
