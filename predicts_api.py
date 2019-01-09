@@ -28,7 +28,7 @@ def predict():
         return jsonify(rf_model.predict(df).tolist())
 
 
-with open("./" + MODEL_NAME, 'rb') as f:
+with open("models/" + MODEL_NAME, 'rb') as f:
     rf_model = pickle.load(f)
 
 
