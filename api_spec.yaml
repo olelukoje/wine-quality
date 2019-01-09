@@ -1,0 +1,33 @@
+openapi: "3.0.2"
+info:
+  version: 1.0.0
+  title: Wine Quality Simple Project
+servers:
+  - url: http://localhost:4001
+paths:
+  /:
+    get:
+      description: Greeting
+      responses:
+        '200':
+          description: Greeting response
+          content:
+            text/html:
+              schema:
+                type: string
+  /predict:
+    post:
+      description: Returns model response based on input parameters
+      requestBody:
+        description: File with input parameters
+        content:
+          text/plain:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: Model response
+          content:
+            application/json:
+              schema:
+                type: array
