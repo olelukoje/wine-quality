@@ -1,6 +1,6 @@
 openapi: "3.0.2"
 info:
-  version: 1.0.0
+  version: 1.0.1
   title: Wine Quality Simple Project
 servers:
   - url: http://localhost:4001
@@ -19,11 +19,11 @@ paths:
     post:
       description: Returns model response based on input parameters
       requestBody:
-        description: File with input parameters
+        description: JSON with input parameters
         content:
-          text/plain:
+          application/json:
             schema:
-              type: string
+              type: object
       responses:
         '200':
           description: Model response
