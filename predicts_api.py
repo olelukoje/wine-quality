@@ -2,7 +2,6 @@ import os
 from flask import Flask, request, jsonify
 import pickle
 import pandas as pd
-import json
 
 app = Flask(__name__)
 MODEL_NAME = os.environ['MODEL_NAME']
@@ -19,8 +18,6 @@ def predict():
     if request.method == 'POST':
         try:
             json_data = request.get_json()
-            # with open(json_path, "r") as f:
-            #     json_data = json.load(f)
             df = pd.DataFrame({0: json_data}).transpose()
         except ValueError:
             return jsonify("Please check the json file.")
