@@ -18,9 +18,9 @@ def start():
 def predict():
     if request.method == 'POST':
         try:
-            json_path = request.get_data()
-            with open(json_path, "r") as f:
-                json_data = json.load(f)
+            json_data = request.get_json()
+            # with open(json_path, "r") as f:
+            #     json_data = json.load(f)
             df = pd.DataFrame({0: json_data}).transpose()
         except ValueError:
             return jsonify("Please check the json file.")
