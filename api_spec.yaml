@@ -23,7 +23,44 @@ paths:
         content:
           application/json:
             schema:
-              type: object
+              type: array
+              items:
+                type: object
+                properties:
+                  fixed acidity:
+                    type: number
+                  volatile acidity:
+                    type: number
+                  citric acid:
+                    type: number
+                  residual sugar:
+                    type: number
+                  chlorides:
+                    type: number
+                  free sulfur dioxide:
+                    type: int32
+                  total sulfur dioxide:
+                    type: int32
+                  density:
+                    type: number
+                  pH:
+                    type: number
+                  sulphates:
+                    type: number
+                  alcohol:
+                    type: int32
+                required:
+                  - fixed acidity
+                  - volatile acidity
+                  - citric acid
+                  - residual sugar
+                  - chlorides
+                  - free sulfur dioxide
+                  - total sulfur dioxide
+                  - density
+                  - pH
+                  - sulphates
+                  - alcohol
       responses:
         '200':
           description: Model response
