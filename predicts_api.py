@@ -18,15 +18,15 @@ def predict():
     if request.method == 'POST':
         try:
             json_data = request.get_json()
-            df = pd.DataFrame({0: json_data}).transpose()
+            if json_data is None:
+                return jsonify("Expected json")
+            else:
+                df = pd.DataFrame({0: json_data}).transpose()
         except ValueError:
-            return jsonify("Please check the json file.")
+            return jsonify("Please check the json format")
 
         return jsonify(rf_model.predict(df).tolist())
 
 
 with open("models/" + MODEL_NAME, 'rb') as f:
     rf_model = pickle.load(f)
-
-
-
