@@ -21,20 +21,41 @@ def predict():
         try:
             json_data = request.get_json()
             if json_data is None:
-                # TODO: add a response error code
-                return jsonify("Expected json")
+                raise InvalidRequestData("Expected json")
             else:
                 properties = [list(d.keys()) for d in json_data]
                 for name in properties:
                     if name == properties_name:
                         continue
                     else:
-                        return jsonify("Incorrect properties order")
+                        raise InvalidRequestData("Incorrect properties order")
                 data = [list(d.values()) for d in json_data]
         except ValueError:
-            return jsonify("Please check the json format")
+            raise InvalidRequestData("Invalid json format")
 
         return jsonify(rf_model.predict(data).tolist())
+
+
+class InvalidRequestData(Exception):
+    status_code = 400
+
+    def __init__(self, message, status_code=None):
+        Exception.__init__(self)
+        self.message = message
+        if status_code is not None:
+            self.status_code = status_code
+
+    def to_dict(self):
+        rv = dict()
+        rv['message'] = self.message
+        return rv
+
+
+@app.errorhandler(InvalidRequestData)
+def handle_invalid_request_exception(error):
+    response = jsonify(error.to_dict())
+    response.status_code = error.status_code
+    return response
 
 
 with open("models/" + MODEL_NAME, 'rb') as f:
