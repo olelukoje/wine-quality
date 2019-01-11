@@ -70,10 +70,4 @@ paths:
                 type: array
         '400':
           description: Bad request response
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
+
