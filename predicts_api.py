@@ -1,7 +1,6 @@
 import os
 from flask import Flask, request, jsonify
 import pickle
-import pandas as pd
 
 app = Flask(__name__)
 MODEL_NAME = os.environ['MODEL_NAME']
@@ -21,11 +20,11 @@ def predict():
             if json_data is None:
                 return jsonify("Expected json")
             else:
-                df = pd.DataFrame({0: json_data}).transpose()
+                data = [list(d.values()) for d in json_data]
         except ValueError:
             return jsonify("Please check the json format")
 
-        return jsonify(rf_model.predict(df).tolist())
+        return jsonify(rf_model.predict(data).tolist())
 
 
 with open("models/" + MODEL_NAME, 'rb') as f:
