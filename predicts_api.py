@@ -17,11 +17,11 @@ def predict():
     if request.method == 'POST':
         try:
             json_data = request.get_json()
-            print(json_data)
             if json_data is None:
                 return jsonify("Expected json")
             else:
                 data = [list(d.values()) for d in json_data]
+                print(data)
         except ValueError:
             return jsonify("Please check the json format")
 

@@ -38,9 +38,9 @@ paths:
                   chlorides:
                     type: number
                   free sulfur dioxide:
-                    type: int32
+                    type: number
                   total sulfur dioxide:
-                    type: int32
+                    type: number
                   density:
                     type: number
                   pH:
@@ -48,7 +48,7 @@ paths:
                   sulphates:
                     type: number
                   alcohol:
-                    type: int32
+                    type: number
                 required:
                   - fixed acidity
                   - volatile acidity
