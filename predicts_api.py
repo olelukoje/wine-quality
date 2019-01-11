@@ -21,7 +21,6 @@ def predict():
                 return jsonify("Expected json")
             else:
                 data = [list(d.values()) for d in json_data]
-                print(data)
         except ValueError:
             return jsonify("Please check the json format")
 
