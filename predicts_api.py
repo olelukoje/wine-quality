@@ -5,7 +5,10 @@ import pickle
 from werkzeug.exceptions import BadRequest
 
 app = Flask(__name__)
-MODEL_NAME = os.environ['MODEL_NAME']
+try:
+    MODEL_NAME = os.environ['MODEL_NAME']
+except KeyError:
+    MODEL_NAME = "rf_model.pkl"
 
 properties_name = ["fixed acidity", "volatile acidity", "citric acid", "residual sugar", "chlorides",
                    "free sulfur dioxide", "total sulfur dioxide", "density", "pH", "sulphates", "alcohol"]
@@ -41,3 +44,7 @@ def predict():
 
 with open("models/" + MODEL_NAME, 'rb') as f:
     rf_model = pickle.load(f)
+
+
+if __name__ == "__main__":
+    app.run(port=4001, host="0.0.0.0")
