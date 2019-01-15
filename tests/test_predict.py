@@ -1,16 +1,7 @@
-import pytest
 import json
-from predicts_api import app
 
 
-@pytest.fixture
-def client():
-    app.config['TESTING'] = True
-    client = app.test_client()
-    return client
-
-
-def test_success(client):
+def test_post_success(client):
     mimetype = 'application/json'
     headers = {
         'Content-Type': mimetype

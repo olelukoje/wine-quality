@@ -5,12 +5,9 @@ import pickle
 from werkzeug.exceptions import BadRequest
 
 app = Flask(__name__)
-try:
-    MODEL_NAME = os.environ['MODEL_NAME']
-except KeyError:
-    MODEL_NAME = "rf_model.pkl"
+MODEL_NAME = os.environ.get('MODEL_NAME', default="rf_model.pkl")
 
-properties_name = ["fixed acidity", "volatile acidity", "citric acid", "residual sugar", "chlorides",
+property_names = ["fixed acidity", "volatile acidity", "citric acid", "residual sugar", "chlorides",
                    "free sulfur dioxide", "total sulfur dioxide", "density", "pH", "sulphates", "alcohol"]
 
 
@@ -30,8 +27,8 @@ def predict():
             else:
                 """Check input properties order"""
                 properties = [list(d.keys()) for d in json_data]
-                for name in properties:
-                    if name == properties_name:
+                for property in properties:
+                    if property == property_names:
                         continue
                     else:
                         raise BadRequest("Incorrect properties order")
