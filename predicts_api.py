@@ -25,18 +25,20 @@ def predict():
             if json_data is None:
                 raise BadRequest("Expected json")
             else:
-                """Check input properties order"""
-                properties = [list(d.keys()) for d in json_data]
-                for property in properties:
-                    if property == property_names:
-                        continue
-                    else:
-                        raise BadRequest("Incorrect properties order")
-                data = [list(d.values()) for d in json_data]
+                """Check all properties availability"""
+                correct_order_data = []
+                for d in json_data:
+                    values = []
+                    for name in property_names:
+                        try:
+                            values.append(d[name])
+                        except KeyError:
+                            raise BadRequest("Missing property(-ies)")
+                    correct_order_data.append(values)
         except ValueError:
             raise BadRequest("Invalid json format")
 
-        return jsonify(rf_model.predict(data).tolist())
+        return jsonify(rf_model.predict(correct_order_data).tolist())
 
 
 with open("models/" + MODEL_NAME, 'rb') as f:

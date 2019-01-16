@@ -52,7 +52,7 @@ def test_not_json_type(client):
     assert b'<p>Expected json</p>' in response.data
 
 
-def test_incorrect_order(client):
+def test_missing_property(client):
 
     mimetype = 'application/json'
     headers = {
@@ -73,4 +73,4 @@ def test_incorrect_order(client):
 
     assert response.content_type == "text/html"
     assert response.status_code == 400
-    assert b'<p>Incorrect properties order</p>' in response.data
+    assert b'<p>Missing property(-ies)</p>' in response.data
