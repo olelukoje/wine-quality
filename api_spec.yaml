@@ -63,8 +63,11 @@ paths:
                   - alcohol
       responses:
         '200':
-          description: Model response
+          description: Successfull response
           content:
             application/json:
               schema:
                 type: array
+        '400':
+          description: Bad request response
+

@@ -2,8 +2,13 @@ import os
 from flask import Flask, request, jsonify
 import pickle
 
+from werkzeug.exceptions import BadRequest
+
 app = Flask(__name__)
-MODEL_NAME = os.environ['MODEL_NAME']
+MODEL_NAME = os.environ.get('MODEL_NAME', default="rf_model.pkl")
+
+property_names = ["fixed acidity", "volatile acidity", "citric acid", "residual sugar", "chlorides",
+                   "free sulfur dioxide", "total sulfur dioxide", "density", "pH", "sulphates", "alcohol"]
 
 
 @app.route("/", methods=['GET'])
@@ -18,14 +23,27 @@ def predict():
         try:
             json_data = request.get_json()
             if json_data is None:
-                return jsonify("Expected json")
+                raise BadRequest("Expected json")
             else:
-                data = [list(d.values()) for d in json_data]
+                """Check all properties availability"""
+                correct_order_data = []
+                for d in json_data:
+                    values = []
+                    for name in property_names:
+                        try:
+                            values.append(d[name])
+                        except KeyError:
+                            raise BadRequest("Missing property(-ies)")
+                    correct_order_data.append(values)
         except ValueError:
-            return jsonify("Please check the json format")
+            raise BadRequest("Invalid json format")
 
-        return jsonify(rf_model.predict(data).tolist())
+        return jsonify(rf_model.predict(correct_order_data).tolist())
 
 
 with open("models/" + MODEL_NAME, 'rb') as f:
     rf_model = pickle.load(f)
+
+
+if __name__ == "__main__":
+    app.run(port=4001, host="0.0.0.0")
